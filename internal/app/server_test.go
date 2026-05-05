@@ -52,4 +52,30 @@ func TestOpenAPISpecServed(t *testing.T) {
 	if !strings.Contains(rec.Body.String(), "\"openapi\": \"3.0.3\"") {
 		t.Fatalf("expected openapi version in response body")
 	}
+	if !strings.Contains(rec.Body.String(), "\"url\": \"http://example.com\"") {
+		t.Fatalf("expected request host in openapi server url, got %q", rec.Body.String())
+	}
+}
+
+func TestOpenAPISpecUsesForwardedHerokuHeaders(t *testing.T) {
+	svc, err := service.New(nil, 2*time.Minute, time.Second)
+	if err != nil {
+		t.Fatalf("new service: %v", err)
+	}
+
+	req := httptest.NewRequest(http.MethodGet, "/openapi.json", nil)
+	req.Host = "internal-router"
+	req.Header.Set("X-Forwarded-Proto", "https")
+	req.Header.Set("X-Forwarded-Host", "my-app-123.herokuapp.com")
+
+	rec := httptest.NewRecorder()
+
+	newHandler(svc).routes().ServeHTTP(rec, req)
+
+	if rec.Code != http.StatusOK {
+		t.Fatalf("expected status 200, got %d", rec.Code)
+	}
+	if !strings.Contains(rec.Body.String(), "\"url\": \"https://my-app-123.herokuapp.com\"") {
+		t.Fatalf("expected forwarded host in openapi server url, got %q", rec.Body.String())
+	}
 }

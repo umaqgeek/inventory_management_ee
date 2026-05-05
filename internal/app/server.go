@@ -156,7 +156,7 @@ func (h *handler) handleOpenAPI(w http.ResponseWriter, r *http.Request) {
 
 	w.Header().Set("Content-Type", "application/json")
 	w.WriteHeader(http.StatusOK)
-	_, _ = w.Write([]byte(openAPISpec))
+	_, _ = w.Write([]byte(renderOpenAPISpec(r)))
 }
 
 func (h *handler) handleHealth(w http.ResponseWriter, _ *http.Request) {
@@ -311,6 +311,29 @@ func writeJSON(w http.ResponseWriter, code int, payload any) {
 	_ = json.NewEncoder(w).Encode(payload)
 }
 
+func renderOpenAPISpec(r *http.Request) string {
+	serverURL := externalBaseURL(r)
+	return strings.Replace(openAPISpecTemplate, "__SERVER_URL__", serverURL, 1)
+}
+
+func externalBaseURL(r *http.Request) string {
+	scheme := "http"
+	if forwardedProto := r.Header.Get("X-Forwarded-Proto"); forwardedProto != "" {
+		scheme = strings.Split(forwardedProto, ",")[0]
+		scheme = strings.TrimSpace(scheme)
+	} else if r.TLS != nil {
+		scheme = "https"
+	}
+
+	host := r.Host
+	if forwardedHost := r.Header.Get("X-Forwarded-Host"); forwardedHost != "" {
+		host = strings.Split(forwardedHost, ",")[0]
+		host = strings.TrimSpace(host)
+	}
+
+	return fmt.Sprintf("%s://%s", scheme, host)
+}
+
 const swaggerUIHTML = `<!DOCTYPE html>
 <html lang="en">
   <head>
@@ -357,7 +380,7 @@ const swaggerUIHTML = `<!DOCTYPE html>
 </html>
 `
 
-const openAPISpec = `{
+const openAPISpecTemplate = `{
   "openapi": "3.0.3",
   "info": {
     "title": "Inventory Reservation API",
@@ -366,7 +389,7 @@ const openAPISpec = `{
   },
   "servers": [
     {
-      "url": "http://localhost:8080"
+      "url": "__SERVER_URL__"
     }
   ],
   "paths": {
