@@ -1,0 +1,192 @@
+{
+  "info": {
+    "_postman_id": "4b4b523a-77f4-4d0b-9154-7c6e37eb3b8f",
+    "name": "Inventory Reservation System",
+    "description": "Postman collection for the Everest Engineering inventory reservation API.",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "Health Check",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{baseUrl}}/healthz",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "healthz"
+          ]
+        },
+        "description": "Simple health endpoint."
+      },
+      "response": []
+    },
+    {
+      "name": "List Products",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{baseUrl}}/products",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "products"
+          ]
+        },
+        "description": "Returns seeded and created products with stock snapshots."
+      },
+      "response": []
+    },
+    {
+      "name": "Create Product",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"id\": \"sku-monitor\",\n  \"name\": \"4K Monitor\",\n  \"total_stock\": 5\n}"
+        },
+        "url": {
+          "raw": "{{baseUrl}}/products",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "products"
+          ]
+        },
+        "description": "Creates a new product."
+      },
+      "response": []
+    },
+    {
+      "name": "Get Product Snapshot",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{baseUrl}}/products/{{productId}}",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "products",
+            "{{productId}}"
+          ]
+        },
+        "description": "Returns one product snapshot by id."
+      },
+      "response": []
+    },
+    {
+      "name": "Create Reservation",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"product_id\": \"{{productId}}\",\n  \"user_id\": \"user-123\",\n  \"quantity\": 1\n}"
+        },
+        "url": {
+          "raw": "{{baseUrl}}/reservations",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "reservations"
+          ]
+        },
+        "description": "Creates an active reservation if stock is available."
+      },
+      "response": []
+    },
+    {
+      "name": "Get Reservation",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{baseUrl}}/reservations/{{reservationId}}",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "reservations",
+            "{{reservationId}}"
+          ]
+        },
+        "description": "Fetches a reservation by id."
+      },
+      "response": []
+    },
+    {
+      "name": "Confirm Reservation",
+      "request": {
+        "method": "POST",
+        "header": [],
+        "url": {
+          "raw": "{{baseUrl}}/reservations/{{reservationId}}/confirm",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "reservations",
+            "{{reservationId}}",
+            "confirm"
+          ]
+        },
+        "description": "Confirms an active reservation and moves it into confirmed sales."
+      },
+      "response": []
+    },
+    {
+      "name": "Cancel Reservation",
+      "request": {
+        "method": "POST",
+        "header": [],
+        "url": {
+          "raw": "{{baseUrl}}/reservations/{{reservationId}}/cancel",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "reservations",
+            "{{reservationId}}",
+            "cancel"
+          ]
+        },
+        "description": "Cancels an active reservation and releases stock."
+      },
+      "response": []
+    }
+  ],
+  "variable": [
+    {
+      "key": "baseUrl",
+      "value": "http://localhost:8080"
+    },
+    {
+      "key": "productId",
+      "value": "sku-flash-sale"
+    },
+    {
+      "key": "reservationId",
+      "value": "replace-me-after-create-reservation"
+    }
+  ]
+}
