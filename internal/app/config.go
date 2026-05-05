@@ -1,6 +1,7 @@
 package app
 
 import (
+	"fmt"
 	"os"
 	"strconv"
 	"time"
@@ -15,9 +16,19 @@ type Config struct {
 }
 
 func LoadConfig() Config {
+	httpAddr := getenv("HTTP_ADDR", ":8080")
+	if port := os.Getenv("PORT"); port != "" {
+		httpAddr = fmt.Sprintf(":%s", port)
+	}
+
+	sqliteDSN := getenv("SQLITE_DSN", "file:data/inventory.db?_pragma=busy_timeout(5000)")
+	if os.Getenv("DYNO") != "" && os.Getenv("SQLITE_DSN") == "" {
+		sqliteDSN = "file:/tmp/inventory.db?_pragma=busy_timeout(5000)"
+	}
+
 	return Config{
-		HTTPAddr:          getenv("HTTP_ADDR", ":8080"),
-		SQLiteDSN:         getenv("SQLITE_DSN", "file:data/inventory.db?_pragma=busy_timeout(5000)"),
+		HTTPAddr:          httpAddr,
+		SQLiteDSN:         sqliteDSN,
 		HoldDuration:      durationEnv("HOLD_DURATION", 2*time.Minute),
 		ExpirySweepPeriod: durationEnv("EXPIRY_SWEEP_PERIOD", 5*time.Second),
 		SeedFile:          getenv("SEED_FILE", "seeds/products.json"),

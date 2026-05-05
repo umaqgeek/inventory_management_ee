@@ -41,6 +41,22 @@ The app seeds initial products from [seeds/products.json](/Users/umarmukhtar/sof
 docker compose up --build
 ```
 
+## Deploy To Heroku
+
+This repo now includes Heroku deployment files:
+
+- `Procfile` to declare the `web` process
+- `app.json` for app metadata and default config
+- `PORT` support so Heroku can bind the app to its assigned port
+
+After connecting the repo to Heroku and enabling deploys from the `main` branch, Heroku should detect the Go app from `go.mod`, build it with the Go buildpack, and serve it on your Heroku app URL.
+
+Important Heroku note:
+
+- SQLite is stored on Heroku's ephemeral filesystem. This app will run on Heroku, but reservation data will be lost on dyno restart or redeploy unless you switch to a persistent database such as Postgres.
+- When the app detects the Heroku `DYNO` environment variable and `SQLITE_DSN` is not set, it automatically uses `/tmp/inventory.db`.
+- Before deploying, replace the placeholder `repository` value in [app.json](/Users/umarmukhtar/softwareProjects/inventoryManagement_everestEngineering/app.json) with your actual GitHub repository URL.
+
 ## Test
 
 ```bash

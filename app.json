@@ -1,0 +1,30 @@
+{
+  "name": "inventory-management-everest-engineering",
+  "description": "Everest Engineering inventory reservation API in Go",
+  "repository": "https://github.com/umaqgeek/inventory_management_ee",
+  "env": {
+    "HOLD_DURATION": {
+      "description": "Reservation hold duration",
+      "value": "2m"
+    },
+    "EXPIRY_SWEEP_PERIOD": {
+      "description": "How often expired reservations are released",
+      "value": "5s"
+    },
+    "SEED_FILE": {
+      "description": "Seed file path for initial products",
+      "value": "seeds/products.json"
+    }
+  },
+  "formation": {
+    "web": {
+      "quantity": 1,
+      "size": "basic"
+    }
+  },
+  "buildpacks": [
+    {
+      "url": "heroku/go"
+    }
+  ]
+}

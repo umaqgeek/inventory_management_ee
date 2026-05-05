@@ -2,6 +2,8 @@ module github.com/umarmukhtar/inventory-reservation-system
 
 go 1.23.0
 
+// +heroku install ./cmd/server
+
 require (
 	github.com/dustin/go-humanize v1.0.1 // indirect
 	github.com/google/uuid v1.6.0 // indirect
