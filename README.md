@@ -33,6 +33,11 @@ The API starts on `http://localhost:8080`.
 
 Swagger UI is available at `http://localhost:8080/`, and the raw OpenAPI spec is served from `http://localhost:8080/openapi.json`.
 
+Live Heroku deployment:
+
+- Swagger UI: `https://inventory-management-ee-da2c6054eeb9.herokuapp.com/`
+- OpenAPI spec: `https://inventory-management-ee-da2c6054eeb9.herokuapp.com/openapi.json`
+
 The app seeds initial products from [seeds/products.json](/Users/umarmukhtar/softwareProjects/inventoryManagement_everestEngineering/seeds/products.json).
 
 ## Run With Docker
