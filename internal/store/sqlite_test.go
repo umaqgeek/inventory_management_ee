@@ -11,6 +11,7 @@ import (
 
 func TestSQLiteStorePersistsState(t *testing.T) {
 	t.Parallel()
+	t.Log("verifies product and reservation state round-trips through SQLite")
 
 	dsn := "file:" + filepath.Join(t.TempDir(), "inventory.db")
 	store, err := NewSQLiteStore(dsn)
@@ -42,6 +43,7 @@ func TestSQLiteStorePersistsState(t *testing.T) {
 	if err := store.Save(context.Background(), products, reservations); err != nil {
 		t.Fatalf("save: %v", err)
 	}
+	t.Log("state written to SQLite successfully")
 
 	loadedProducts, loadedReservations, err := store.Load(context.Background())
 	if err != nil {
@@ -56,4 +58,5 @@ func TestSQLiteStorePersistsState(t *testing.T) {
 	if loadedProducts[0].ID != "sku-1" || loadedReservations[0].ID != "res-1" {
 		t.Fatalf("unexpected persisted state: %+v %+v", loadedProducts[0], loadedReservations[0])
 	}
+	t.Logf("state loaded successfully: products=%d reservations=%d", len(loadedProducts), len(loadedReservations))
 }
