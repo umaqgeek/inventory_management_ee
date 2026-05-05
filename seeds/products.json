@@ -1,0 +1,17 @@
+[
+  {
+    "id": "sku-laptop",
+    "name": "Everest Laptop",
+    "total_stock": 10
+  },
+  {
+    "id": "sku-headset",
+    "name": "Everest Headset",
+    "total_stock": 25
+  },
+  {
+    "id": "sku-flash-sale",
+    "name": "Flash Sale Limited Item",
+    "total_stock": 1
+  }
+]

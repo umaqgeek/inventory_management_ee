@@ -1,0 +1,18 @@
+.DS_Store
+.gocache/
+.gomodcache/
+data/
+
+# Go binaries and coverage
+*.exe
+*.exe~
+*.dll
+*.so
+*.dylib
+*.test
+*.out
+coverage.out
+
+# IDE/editor files
+.idea/
+.vscode/
