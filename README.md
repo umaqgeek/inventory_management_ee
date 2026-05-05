@@ -31,6 +31,8 @@ GOCACHE=$(pwd)/.gocache go run ./cmd/server
 
 The API starts on `http://localhost:8080`.
 
+Swagger UI is available at `http://localhost:8080/`, and the raw OpenAPI spec is served from `http://localhost:8080/openapi.json`.
+
 The app seeds initial products from [seeds/products.json](/Users/umarmukhtar/softwareProjects/inventoryManagement_everestEngineering/seeds/products.json).
 
 ## Run With Docker
@@ -154,3 +156,4 @@ curl http://localhost:8080/products/{product_id}
 - I kept the frontend out of scope because the challenge PDF focuses on backend behavior, concurrency, expiry logic, and tests.
 - SQLite is used for simple persistence in development and Docker.
 - The locking strategy is intentionally simple and explicit for correctness under contention.
+- The Swagger UI page at `/` loads Swagger assets from the `unpkg` CDN at runtime.
